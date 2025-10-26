@@ -16,8 +16,8 @@
             P.Naam AS NaamProduct,
             PPL.DatumLevering AS DatumLaatsteLevering,
             PPL.Aantal,
-            PPL.DatumEerstVolgendeLevering AS EerstvolgendeLevering,
-            IF( M.AantalAanwezig IS NULL, 'de verwachte eerstvolgende levering is: 30-04-2023 ', '') AS Melding
+            M.AantalAanwezig,
+            PPL.DatumEerstVolgendeLevering AS EerstvolgendeLevering
         FROM Product P
         LEFT JOIN ProductPerLeverancier PPL ON P.Id = PPL.ProductId
         LEFT JOIN Leverancier L ON PPL.LeverancierId = L.Id
@@ -27,6 +27,3 @@
     END $$
 
     DELIMITER ;
-
-
-
