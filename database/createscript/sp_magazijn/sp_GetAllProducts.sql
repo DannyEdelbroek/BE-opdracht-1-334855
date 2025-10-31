@@ -10,7 +10,7 @@ BEGIN
          PROD.Id                  AS Id,
          PROD.Naam                AS Naam,
          PROD.Barcode             AS Barcode,
-         MAGA.VerpakkingsEenheid  AS VerpakkingsEenheid,
+         TRIM(TRAILING '.00' FROM FORMAT(MAGA.VerpakkingsEenheid, 1)) AS VerpakkingsEenheid,
          MAGA.AantalAanwezig      AS AantalAanwezig
     FROM Product AS PROD
     INNER JOIN Magazijn AS MAGA 

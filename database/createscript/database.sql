@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS Magazijn
 (
     Id                  SMALLINT       NOT NULL AUTO_INCREMENT
    ,ProductId           SMALLINT       NOT NULL
-   ,VerpakkingsEenheid  DECIMAL(10,2) NULL
+   ,VerpakkingsEenheid  DECIMAL(4,1) NULL
    ,AantalAanwezig      INT            NULL
    ,IsActief            BIT            NOT NULL DEFAULT 1
    ,Opmerkingen         VARCHAR(250)   NULL DEFAULT NULL

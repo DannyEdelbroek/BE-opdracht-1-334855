@@ -10,14 +10,14 @@
     BEGIN
         SELECT 
             L.Naam AS NaamLeverancier,
-            L.ContactPersoon AS ContactpersoonLeverancier,
+            L.ContactPersoon  AS ContactpersoonLeverancier,
             L.LeverancierNummer,
             L.Mobiel,
             P.Naam AS NaamProduct,
-            PPL.DatumLevering AS DatumLaatsteLevering,
+            DATE_FORMAT(PPL.DatumLevering, '%d-%m-%Y') AS DatumLaatsteLevering,
             PPL.Aantal,
             M.AantalAanwezig,
-            PPL.DatumEerstVolgendeLevering AS EerstvolgendeLevering
+            DATE_FORMAT(PPL.DatumEerstVolgendeLevering), '%d-%m-%Y' AS EerstvolgendeLevering
         FROM Product P
         LEFT JOIN ProductPerLeverancier PPL ON P.Id = PPL.ProductId
         LEFT JOIN Leverancier L ON PPL.LeverancierId = L.Id
