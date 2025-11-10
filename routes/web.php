@@ -39,7 +39,7 @@ Route::get('/leverancier/{productNaam}/info', [LeverantieController::class, 'sho
     ->where('productNaam', '.*')
     ->name('leverancier.index');
 
-
+Route::get('/leverancier', [LeverantieController::class, 'index'])->name('leverancierOverzicht.index');
 
 
 // dashboard
