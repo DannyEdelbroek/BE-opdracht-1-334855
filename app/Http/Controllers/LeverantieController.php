@@ -3,10 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use App\Models\LeverantieModel;
 use Illuminate\Http\Request;
 
 class LeverantieController extends Controller
 {
+
+    private $LeverantieModel;
+    public function __construct()
+    {
+        $this->LeverantieModel = new LeverantieModel();
+    }
+    public function index()
+    {
+
+         $leveranties = $this->LeverantieModel->sp_getOverzichtLeverantie();
+
+        return view('leverancierOverzicht.index', [
+            'title' => 'Overzicht leverancier',
+            'leveranties'  => $leveranties,
+        ]);
+    }
+
     public function show($productNaam)
     {
         // Haal alle leverantie-informatie op voor dit product

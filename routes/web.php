@@ -1,48 +1,51 @@
 <?php
 
-use App\Livewire\Settings\Appearance;
-use App\Livewire\Settings\Password;
-use App\Livewire\Settings\Profile;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AllergeenController;
 use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LeverantieController;
+use Illuminate\Support\Facades\Route;
+use App\Livewire\Settings\Appearance;
+use App\Livewire\Settings\Password;
+use App\Livewire\Settings\Profile;
 
+// Home
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// allergeen routes
-// index
-Route::get('/allergeen', [AllergeenController::class, 'index'])->name('allergeen.index');
-// create
-Route::get('/allergeen/create', [AllergeenController::class, 'create']) ->name('allergeen.create');
-// store
-Route::post('/allergeen', [AllergeenController::class, 'store'])->name('allergeen.store');
-// destroy
-Route::delete('/allergeen/{id}', [AllergeenController::class, 'destroy'])->name('allergeen.destroy');
-// getId to edit page
-Route::get('/allergeen/{id}/edit', [AllergeenController::class, 'edit'])->name('allergeen.edit');
-// update data
-Route::put('/allergeen/{id}', [AllergeenController::class, 'update'])->name('allergeen.update');
+// Allergeen Routes
+Route::prefix('allergeen')->name('allergeen.')->group(function() {
+    Route::get('/', [AllergeenController::class, 'index'])->name('index');
+    Route::get('/create', [AllergeenController::class, 'create'])->name('create');
+    Route::post('/', [AllergeenController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [AllergeenController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [AllergeenController::class, 'update'])->name('update');
+    Route::delete('/{id}', [AllergeenController::class, 'destroy'])->name('destroy');
+});
 
-// magazuijn routes
-// index
+// Magazijn Routes
 Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
 
+// Producten / Allergenen per product
 Route::get('/producten/{naam}/allergenen', [ProductController::class, 'show'])
     ->where('naam', '.*')
     ->name('producten.index');
 
+// Leverancier Routes
+Route::get('/leverancier', [LeverantieController::class, 'index'])->name('leverancier.overzicht');
+
+// **Specifieke route voor geleverd product eerst**
+Route::get('/leverancier/{leverdeProduct}/info', [ProductController::class, 'shows'])
+    ->where('leverdeProduct', '.*')
+    ->name('leverdeProducten.index');
+
+// Algemenere route voor leverancier info
 Route::get('/leverancier/{productNaam}/info', [LeverantieController::class, 'show'])
     ->where('productNaam', '.*')
     ->name('leverancier.index');
 
-Route::get('/leverancier', [LeverantieController::class, 'index'])->name('leverancierOverzicht.index');
-
-
-// dashboard
+// Dashboard & settings
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -50,7 +53,6 @@ Route::view('dashboard', 'dashboard')
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
-// profile, password, appearance
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
