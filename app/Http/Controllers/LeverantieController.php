@@ -17,7 +17,7 @@ class LeverantieController extends Controller
     public function index()
     {
 
-         $leveranties = $this->LeverantieModel->sp_getOverzichtLeverantie();
+         $leveranties = $this->LeverantieModel->sp_getOverzichtLeverancie();
 
         return view('leverancierOverzicht.index', [
             'title' => 'Overzicht leverancier',
@@ -40,7 +40,7 @@ class LeverantieController extends Controller
 
         // Geef het product en leverancierinfo door aan de view
         return view('leverancier.index', [
-            'productNaam' => $leverantie[0]->NaamProduct,
+            'productNaam' => $leverantie[0]->productNaam,
             'leverantie'  => $leverantie,
         ]);
     }

@@ -35,15 +35,19 @@ Route::get('/producten/{naam}/allergenen', [ProductController::class, 'show'])
 // Leverancier Routes
 Route::get('/leverancier', [LeverantieController::class, 'index'])->name('leverancier.overzicht');
 
+
+Route::get('/leverancier/{productNaam}/info', [LeverantieController::class, 'show'])
+    ->name('leverancier.index');
+
 // **Specifieke route voor geleverd product eerst**
-Route::get('/leverancier/{leverdeProduct}/info', [ProductController::class, 'shows'])
-    ->where('leverdeProduct', '.*')
+Route::get('/leverancier/product/{leverdeProduct}/info', [ProductController::class, 'shows'])
     ->name('leverdeProducten.index');
 
-// Algemenere route voor leverancier info
-Route::get('/leverancier/{productNaam}/info', [LeverantieController::class, 'show'])
-    ->where('productNaam', '.*')
-    ->name('leverancier.index');
+Route::get('/leverancier/{leverancierId}/product/{productId}/levering', [ProductController::class, 'create'])
+    ->name('leverdeProducten.create');
+
+Route::post('/leverancier/store', [ProductController::class, 'store'])
+    ->name('leverancier.store');
 
 // Dashboard & settings
 Route::view('dashboard', 'dashboard')

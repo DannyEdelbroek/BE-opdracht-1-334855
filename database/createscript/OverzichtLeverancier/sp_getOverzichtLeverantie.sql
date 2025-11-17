@@ -1,10 +1,10 @@
 USE jamin;
 
-DROP PROCEDURE IF EXISTS sp_getOverzichtLeveranciers;
+DROP PROCEDURE IF EXISTS sp_getOverzichtLeverancie;
 
 DELIMITER $$
 
-CREATE PROCEDURE sp_getOverzichtLeveranciers()
+CREATE PROCEDURE sp_getOverzichtLeverancie()
 BEGIN
     SELECT 
         LEV.Id AS Id,

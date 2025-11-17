@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class LeverantieModel extends Model
 {
-    public function sp_getOverzichtLeverantie()
+    public function sp_getOverzichtLeverancie()
     {
-        $results = DB::select('CALL sp_getOverzichtLeverantie');
+        $results = DB::select('CALL sp_getOverzichtLeverancie');
 
         return $results;
     }
