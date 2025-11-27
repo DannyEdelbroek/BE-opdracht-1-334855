@@ -85,7 +85,7 @@
                                     <tr>
                                         <td class="fw-semibold">{{ $item->ProductNaam }}</td>
                                         <td>{{ $item->AantalInMagazijn }}</td>
-                                        <td>{{ $item->VerpakkingsEenheid }}</td>
+                                        <td>{{ $item->VerpakkingsEenheid }}: KG</td>
                                         <td>{{ $item->LaatsteLevering }}</td>
                                         <td>
                                             <a href="{{ route('leverdeProducten.create', [

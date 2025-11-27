@@ -15,7 +15,7 @@ BEGIN
     INSERT INTO ProductPerLeverancier
         (LeverancierId, ProductId, DatumLevering, Aantal, DatumEerstVolgendeLevering)
     VALUES
-        (p_LeverancierId, p_ProductId, p_DatumLevering, p_Aantal, p_DatumEerstVolgendeLevering);
+        (p_LeverancierId, p_ProductId, NOW(), p_Aantal, p_DatumEerstVolgendeLevering);
 
     -- Update voorraad in Magazijn
     UPDATE Magazijn
