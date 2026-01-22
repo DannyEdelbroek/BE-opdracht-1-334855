@@ -64,13 +64,25 @@
 
                     </table>
                 </div>
-                <p>Huidige pagina: {{ $currentPage }}</p>
-                <p>PageSize: {{ $pageSize }}</p>
+                <div style="margin-top: 20px;">
+                    {{-- Vorige pagina --}}
+                    @if ($currentPage > 1)
+                        <a href="?page={{ $currentPage - 1 }}&pageSize={{ $pageSize }}">
+                            ⬅ Vorige
+                        </a>
+                    @endif
 
-                @foreach($leveranties as $leverantie)
-                    <p>{{ $leverantie->Naam }} (ID: {{ $leverantie->Id }})</p>
-                @endforeach
-                <button>Terug</button> <button>Volgende</button>
+                    <span style="margin: 0 10px;">
+                        Pagina {{ $currentPage }}
+                    </span>
+
+                    {{-- Volgende pagina --}}
+                    @if (count($leveranties) == $pageSize)
+                        <a href="?page={{ $currentPage + 1 }}&pageSize={{ $pageSize }}">
+                            Volgende ➡
+                        </a>
+                    @endif
+                </div>
             </div>
         </div>
 
