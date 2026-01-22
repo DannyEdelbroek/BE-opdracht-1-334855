@@ -24,7 +24,7 @@ class LeverantieModel extends Model
         $PageSize
     )
     {
-        $result = DB::select('CALL sp_GetAllLeverancier(?, ? )', [
+        $result = DB::select('CALL sp_GetAllLeverancier(?, ? )', [ 
             $PageNumber,
             $PageSize
         ]);

@@ -31,7 +31,7 @@
 
                 <table class="table table-bordered mb-0 align-middle">
                 @if (session('warning'))
-                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
                         <i class="bi bi-check-circle-fill me-2 fs-4"></i>
 
                         <div>

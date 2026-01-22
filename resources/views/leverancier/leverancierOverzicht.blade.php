@@ -18,6 +18,8 @@
             <p class="text-secondary fs-5">Overzicht van alle leveranciers</p>
         </div>
 
+        
+
         <!-- Card -->
         <div class="card border-0 shadow-lg rounded-4">
             <div class="card-header bg-primary bg-gradient text-white text-center fw-semibold fs-5">

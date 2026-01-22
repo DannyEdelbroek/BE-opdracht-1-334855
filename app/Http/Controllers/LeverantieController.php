@@ -122,16 +122,15 @@ class LeverantieController extends Controller
             if ($result['success']) {
                 return redirect()->route('leverancier.edit', $id)
                     ->with('success', $result['message']);
-            }
 
-            return redirect()->route('leverancier.edit', $id)
-                ->with('error', $result['message']);
+            } else {
+                return redirect()->route('leverancier.edit', $id)
+                    ->with('warning', $result['message']);
+
+            }
 
         } catch (Exception $e) {
             Log::warning('Leverancier wijzigen mislukt: '.$e->getMessage());
-
-            return redirect()->route('leverancier.edit', $id)
-                ->with('error', 'Er is iets misgegaan. Probeer het later opnieuw.');
         }
     }
 }
