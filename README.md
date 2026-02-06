@@ -1,59 +1,74 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Jamin Leveranciersportaal
+<p align="center"> <a href="https://laravel.com" target="_blank"> <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" alt="Laravel Logo"> </a> </p> <p align="center"> <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a> <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a> <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a> <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a> </p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Over dit project
 
-## About Laravel
+Dit project is een leveranciers- en allergenenportaal voor Jamin, gebouwd met Laravel 10, Tailwind CSS en Breeze.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Leveranciers kunnen bekijken, inclusief contactinformatie en adresgegevens.
+- Allergenen per product kunnen bekijken met filtering en pagination.
+- Snel en overzichtelijk door de data kunnen navigeren via responsive tables en dropdowns.
+- Dark mode en een consistente layout ervaren via Breeze.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Gebouwde functionaliteiten
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Leverancierspagina
 
-## Learning Laravel
+- Overzicht van alle leveranciers.
+- Toon Naam, Contactpersoon, Mobiel, Stad, Straat en Huisnummer.
+- Indien adresgegevens ontbreken, wordt dit duidelijk weergegeven in één samengevoegde kolom.
+- Responsieve tabel met Tailwind CSS.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Allergeen Overzicht
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Overzicht van producten en hun allergenen.
 
-## Laravel Sponsors
+- Dropdown filter op allergenen.
+- Pagination om grote datasets overzichtelijk te tonen.
+- Bewerkknop per product om direct naar de leverancier te navigeren.
+- Responsive tabel met Tailwind CSS en dark mode support.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Backend
 
-### Premium Partners
+- Stored procedures gebruikt voor het ophalen van allergenen met pagination.
+- Controllers en models georganiseerd volgens Laravel best practices.
+- Filters verwerkt via GET parameters.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Frontend
 
-## Contributing
+- Alle pagina’s gebruiken <x-app-layout> van Laravel Breeze
+- Tailwind CSS styling, responsive tables en dark mode.
+- Dropdowns en pagination in Tailwind-stijl.
+- Geen Bootstrap meer nodig, alles consistent.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Project Structuur (kort overzicht)
 
-## Code of Conduct
+app/
+├─ Http/
+│  ├─ Controllers/
+│  │   ├─ LeverancierController.php
+│  │   └─ AllergeenController.php
+├─ Models/
+│   ├─ LeverantieModel.php
+│   └─ AllergeenModel.php
+resources/
+├─ views/
+│  ├─ layouts/
+│  │   └─ app.blade.php
+│  ├─ leverancierOverzicht/
+│  │   └─ index.blade.php
+│  └─ allergenenOverzicht/
+│      └─ index.blade.php
+database/
+├─ migrations/
+├─ seeders/
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Gebruikte technologieën
 
-## Security Vulnerabilities
+- Framework: Laravel 10
+- Authentication & Layout: Laravel Breeze
+- Styling: Tailwind CSS (responsive tables, dropdowns, dark mode)
+- Database: MySQL (met stored procedures voor pagination)
+- Icons: Bootstrap Icons
+- Version Control: Git
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
