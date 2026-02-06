@@ -43,25 +43,7 @@ Overzicht van producten en hun allergenen.
 
 ## Project Structuur (kort overzicht)
 
-app/
-├─ Http/
-│  ├─ Controllers/
-│  │   ├─ LeverancierController.php
-│  │   └─ AllergeenController.php
-├─ Models/
-│   ├─ LeverantieModel.php
-│   └─ AllergeenModel.php
-resources/
-├─ views/
-│  ├─ layouts/
-│  │   └─ app.blade.php
-│  ├─ leverancierOverzicht/
-│  │   └─ index.blade.php
-│  └─ allergenenOverzicht/
-│      └─ index.blade.php
-database/
-├─ migrations/
-├─ seeders/
+![alt text](image.png)
 
 ## Gebruikte technologieën
 
