@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\LeverantieController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/products', [ProductController::class, 'index'])
+    ->name('products.index');
+Route::get('/products/{id}/show', [ProductController::class, 'show'])
+    ->name('products.show');
+
 
 Route::get('/leverancier', [LeverantieController::class, 'index'])
     ->name('leverancier.index');
