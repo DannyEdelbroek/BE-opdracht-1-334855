@@ -7,11 +7,20 @@ DROP DATABASE IF EXISTS jamin;
 CREATE DATABASE jamin;
 USE jamin;
 
+DROP TABLE IF EXISTS ProductEinddatumLevering;
+DROP TABLE IF EXISTS ProductPerLeverancier;
+DROP TABLE IF EXISTS ProductPerAllergeen;
+DROP TABLE IF EXISTS Magazijn;
+DROP TABLE IF EXISTS Allergeen;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Leverancier;
+DROP TABLE IF EXISTS Contact;
+
 -- **********************************
 -- Table: Contact
 -- **********************************
 
-DROP TABLE IF EXISTS Contact;
+
 CREATE TABLE Contact
 (
     Id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,
@@ -38,7 +47,7 @@ VALUES
 -- **********************************
 -- Table: Leverancier
 -- **********************************
-DROP TABLE IF EXISTS Leverancier;
+
 CREATE TABLE Leverancier
 (
     Id                INT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -69,7 +78,7 @@ VALUES
 -- **********************************
 -- Table: Product
 -- **********************************
-DROP TABLE IF EXISTS Product;
+
 CREATE TABLE Product
 (
     Id              INT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -103,7 +112,7 @@ VALUES
 -- **********************************
 -- Table: Allergeen
 -- **********************************
-DROP TABLE IF EXISTS Allergeen;
+
 CREATE TABLE Allergeen
 (
     Id              INT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -127,7 +136,7 @@ VALUES
 -- **********************************
 -- Table: Magazijn
 -- **********************************
-DROP TABLE IF EXISTS Magazijn;
+
 CREATE TABLE Magazijn
 (
     Id                  INT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -161,7 +170,7 @@ VALUES
 -- **********************************
 -- Table: ProductPerAllergeen
 -- **********************************
-DROP TABLE IF EXISTS ProductPerAllergeen;
+
 CREATE TABLE ProductPerAllergeen
 (
     Id              INT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -195,7 +204,7 @@ VALUES
 -- **********************************
 -- Table: ProductPerLeverancier
 -- **********************************
-DROP TABLE IF EXISTS ProductPerLeverancier;
+
 CREATE TABLE ProductPerLeverancier
 (
     Id                          INT UNSIGNED   NOT NULL AUTO_INCREMENT,
@@ -215,21 +224,51 @@ CREATE TABLE ProductPerLeverancier
 
 INSERT INTO ProductPerLeverancier (Id, LeverancierId, ProductId, DatumLevering, Aantal, DatumEerstVolgendeLevering)
 VALUES
-(1, 1, 1, '2024-10-09', 23, '2024-10-16'),
-(2, 1, 1, '2024-10-18', 21, '2024-10-25'),
-(3, 1, 2, '2024-10-09', 12, '2024-10-16'),
-(4, 1, 3, '2024-10-10', 11, '2024-10-17'),
-(5, 2, 4, '2024-10-14', 16, '2024-10-21'),
-(6, 2, 4, '2024-10-21', 23, '2024-10-28'),
-(7, 2, 5, '2024-10-14', 45, '2024-10-21'),
-(8, 2, 6, '2024-10-14', 30, '2024-10-21'),
-(9, 3, 7, '2024-10-12', 12, '2024-10-19'),
-(10, 3, 7, '2024-10-19', 23, '2024-10-26'),
-(11, 3, 8, '2024-10-10', 12, '2024-10-17'),
-(12, 3, 9, '2024-10-11', 1, '2024-10-18'),
-(13, 4, 10, '2024-10-16', 24, '2024-10-30'),
-(14, 5, 11, '2024-10-10', 47, '2024-10-17'),
-(15, 5, 11, '2024-10-19', 60, '2024-10-26'),
-(16, 5, 12, '2024-10-11', 45, NULL),
-(17, 6, 13, '2024-10-12', 23, NULL),
-(18, 7, 14, '2023-04-14', 20, NULL);
+(1, 1, 1, '2026-10-09', 23, '2026-10-16'),
+(2, 1, 1, '2026-10-18', 21, '2026-10-25'),
+(3, 1, 2, '2026-10-09', 12, '2026-10-16'),
+(4, 1, 3, '2026-10-10', 11, '2026-10-17'),
+(5, 2, 4, '2026-10-14', 16, '2026-10-21'),
+(6, 2, 4, '2026-10-21', 23, '2026-10-28'),
+(7, 2, 5, '2026-10-14', 45, '2026-10-21'),
+(8, 2, 6, '2026-10-14', 30, '2026-10-21'),
+(9, 3, 7, '2026-10-12', 12, '2026-10-19'),
+(10, 3, 7, '2026-10-19', 23, '2026-10-26'),
+(11, 3, 8, '2026-10-10', 12, '2026-10-17'),
+(12, 3, 9, '2026-10-11', 1, '2026-10-18'),
+(13, 4, 10, '2026-10-16', 24, '2026-10-30'),
+(14, 5, 11, '2026-10-10', 47, '2026-10-17'),
+(15, 5, 11, '2026-10-19', 60, '2026-10-26'),
+(16, 5, 12, '2026-10-11', 45, NULL),
+(17, 6, 13, '2026-10-12', 23, NULL),
+(18, 7, 14, '2026-04-14', 20, NULL);
+
+-- **********************************
+-- Table: ProductEinddatumLevering
+-- **********************************
+
+CREATE TABLE ProductEinddatumLevering
+(
+    Id                          INT UNSIGNED   NOT NULL AUTO_INCREMENT,
+    ProductId                   INT UNSIGNED   NOT NULL,
+    EinddatumLevering           DATE           NOT NULL,
+    IsActief                    BIT            NOT NULL DEFAULT 1,
+    Opmerkingen                 VARCHAR(250)   NULL DEFAULT NULL,
+    DatumAangemaakt             DATETIME(6)    NOT NULL DEFAULT NOW(6),
+    DatumGewijzigd              DATETIME(6)    NOT NULL DEFAULT NOW(6) ON UPDATE NOW(6),
+    PRIMARY KEY (Id),
+    CONSTRAINT FK_PEL_Product FOREIGN KEY (ProductId) REFERENCES Product(Id)
+) ENGINE=InnoDB;
+
+INSERT INTO ProductEinddatumLevering (ProductId, EinddatumLevering)
+VALUES
+-- niet
+(1, '2026-06-01'),
+(2, '2026-05-22'),
+(3, '2026-05-30'),
+(4, '2026-04-10'),
+-- wel
+(7, '2026-03-01'),
+(10, '2026-02-15'),
+(11, '2026-01-10'),
+(14, '2025-12-31');

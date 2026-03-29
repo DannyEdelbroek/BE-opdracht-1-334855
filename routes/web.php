@@ -2,6 +2,7 @@
 use App\Http\Controllers\LeverantieController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LeverancierProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,13 @@ Route::get('/products', [ProductController::class, 'index'])
     ->name('products.index');
 Route::get('/products/{id}/show', [ProductController::class, 'show'])
     ->name('products.show');
+
+Route::get('/LeverancierProduct', [LeverancierProductController::class, 'index'])
+    ->name('LeverancierProduct.index');
+Route::get('/LeverancierProduct/{id}/show', [LeverancierProductController::class, 'show'])
+    ->name('LeverancierProduct.show');
+Route::delete('/LeverancierProduct/{id}', [LeverancierProductController::class, 'destroy'])
+    ->name('LeverancierProduct.destroy');
 
 
 Route::get('/leverancier', [LeverantieController::class, 'index'])
