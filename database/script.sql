@@ -85,6 +85,8 @@ INSERT INTO Voertuig (Kenteken, `Type`, Bouwjaar, Brandstof, TypeVoertuigId) VAL
 ('STP-12-U', 'Kymco', '2022-07-02', 'Benzine', 4),
 ('45-SD-23', 'Renault', '2023-01-01', 'Diesel', 3);
 
+-- create voertuig-instructeur relaties
+
 create table VoertuigInstructeur(
 	Id int unsigned auto_increment primary key,
     VoertuigId int unsigned,
