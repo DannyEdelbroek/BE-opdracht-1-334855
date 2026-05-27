@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Autocontroller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,32 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         return view('users.dashboard');
     })->name('users.dashboard');
 });
+
+// Auto routes
+Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function () {
+    Route::get('/Auto', [AutoController::class, 'index'])->name('auto.index');
+    Route::get('/Auto/show/{id}', [AutoController::class, 'show'])->name('auto.show');
+    Route::get('/Auto/edit/{id}', [AutoController::class, 'edit'])->name('auto.edit');
+    Route::put('/Auto/update/{id}', [AutoController::class, 'update'])->name('auto.update');
+});
+
+Route::middleware('auth')->get('/dashboard', function () {
+    $user = Auth::user();
+
+    if ($user->isAdministrator()) {
+        return redirect()->route('admin.dashboard');
+    }
+
+    if ($user->isInstructeur()) {
+        return redirect()->route('instructeur.dashboard');
+    }
+
+    if ($user->isLeerling()) {
+        return redirect()->route('leerling.dashboard');
+    }
+
+    return redirect()->route('users.dashboard');
+})->name('dashboard');
 
 Route::middleware('auth')->get('/dashboard', function () {
     $user = Auth::user();
