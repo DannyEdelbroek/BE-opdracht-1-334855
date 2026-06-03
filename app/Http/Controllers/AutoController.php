@@ -19,7 +19,7 @@ class AutoController extends Controller
      */
     public function index()
     {
-        $auto = $this->autoModel->typeVoertuig();
+        $auto = $this->autoModel->getAlleInstructeurs();
 
         return view('auto.index', compact('auto'));
     }
@@ -52,8 +52,14 @@ class AutoController extends Controller
         $instructeur = $data->first();
         $voertuigen = $data;
 
+        // Optioneel: wanneer ?all=1 in de querystring staat, laad alle voertuigen
+        $alleVoertuigen = null;
+        if (request()->query('all') == 1) {
+            $alleVoertuigen = $this->autoModel->getAlleVoertuigen();
+        }
+
         // 3. Stuur beide variabelen netjes mee naar de view
-        return view('auto.show', compact('instructeur', 'voertuigen'));
+        return view('auto.show', compact('instructeur', 'voertuigen', 'alleVoertuigen'));
     }
 
     /**
@@ -103,8 +109,55 @@ class AutoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Auto $auto)
+    
+    public function Auto()
     {
-        //
+        $voertuigen = $this->autoModel->getAlleVoertuigen();
+
+        return view('auto.AllAutos', compact('voertuigen'));
     }
+
+    public function destroy($id)
+    {
+        if (! $id) {
+            return redirect()->back()->with('error', 'Geen voertuig opgegeven.');
+        }
+
+        $status = $this->autoModel->verwijderViaSP($id);
+
+        if ($status === 'not_found') {
+            return redirect()->back()->with('error', 'Voertuig niet gevonden.');
+        }
+
+        if ($status === 'active') {
+            return redirect()->back()->with('error', 'Dit voertuig is actief en kan niet verwijderd worden.');
+        }
+
+        if ($status === 'deleted') {
+            return redirect()->route('auto.AllAutos')->with('success', 'Voertuig succesvol verwijderd.');
+        }
+
+        return redirect()->back()->with('error', 'Er ging iets mis bij het verwijderen van het voertuig.');
+    }
+
+    public function destroyAll($id)
+    {
+        // 1. Roep de methode aan die de Stored Procedure uitvoert
+        // (Vervang $this->voertuigService eventueel naar hoe jij die functie aanroept)
+        $result = $this->autoModel->destroyCar($id);
+
+        // 2. Controleer of de service 'error' heeft teruggegeven
+        if ($result === 'error') {
+            // Stuur de gebruiker terug met een foutmelding
+            return redirect()
+                ->route('auto.show', ['id' => $id])
+                ->with('error', 'Het voertuig kon niet worden verwijderd. Er is iets misgegaan of het voertuig bestaat niet.');
+        }
+
+        // 3. Als alles goed is gegaan, stuur terug met een succesmelding
+        return redirect()
+            ->route('auto.show', ['id' => $id])
+            ->with('success', 'Voertuig is succesvol verwijderd!');
+    }
+    
 }

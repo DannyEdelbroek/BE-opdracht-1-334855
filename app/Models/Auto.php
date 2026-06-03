@@ -24,6 +24,17 @@ class Auto extends Model
         'Opmerking',
     ];
 
+    public function getAlleInstructeurs()
+    {
+        try {
+            return collect(DB::select('CALL KrijgAlleAutos()') ?? []);
+        } catch (\Exception $e) {
+            Log::error('Fout in getAlleInstructeurs: '.$e->getMessage());
+
+            return collect([]);
+        }
+    }
+
     public function typeVoertuig()
     {
         try {
@@ -34,6 +45,41 @@ class Auto extends Model
         }
 
         return $instructeurs;
+    }
+
+    /**
+     * Haal alle voertuigen via de stored procedure `KrijgAlleVoertuigen`.
+     */
+    public function getAlleVoertuigen()
+    {
+        try {
+            return collect(DB::select('CALL KrijgAlleVoertuigen()') ?? []);
+        } catch (\Exception $e) {
+            Log::error('Fout in getAlleVoertuigen: '.$e->getMessage());
+
+            return collect([]);
+        }
+    }
+
+    /**
+     * Roep de stored procedure `VerwijderVoertuig` aan en retourneer de status string.
+     * Mogelijke resultaten: 'not_found', 'active', 'deleted'.
+     */
+    public function verwijderViaSP($id)
+    {
+        try {
+            $res = DB::select('CALL VerwijderVoertuig(?)', [$id]);
+
+            if (is_array($res) && isset($res[0]) && isset($res[0]->status)) {
+                return $res[0]->status;
+            }
+
+            return 'error';
+        } catch (\Exception $e) {
+            Log::error('Fout in verwijderViaSP: '.$e->getMessage());
+
+            return 'error';
+        }
     }
 
     public function InstructeurAuto($instructeurId)
@@ -113,6 +159,18 @@ class Auto extends Model
             Log::error('Fout in updateVoertuigGegevens via SP: '.$e->getMessage());
 
             return false;
+        }
+    }
+
+    public function destroyCar($id)
+    {
+        try {
+            return DB::select('CALL DeleteCar(?)', [$id]);
+
+        } catch (\Exception $e) {
+            Log::error('Fout in destroyCar: '.$e->getMessage());
+
+            return 'error';
         }
     }
 }

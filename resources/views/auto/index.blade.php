@@ -6,7 +6,15 @@
     </x-slot>
 
     <div class="py-12">
+
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md text-sm shadow-sm">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <div class="mb-5 bg-indigo-50 border border-indigo-100 rounded-lg p-4 max-w-xs shadow-sm">
                 <p class="text-sm font-medium text-indigo-900">
@@ -43,7 +51,7 @@
                                 <th scope="col"
                                     class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                                     Voertuigen</th>
-                            </tr>
+                                </tr>
                         </thead>
 
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -73,14 +81,15 @@
                                         <div class="flex items-center gap-0.5"
                                             title="{{ $instructeur->AantalSterren }} sterren">
                                             @for($i = 0; $i < $instructeur->AantalSterren; $i++)
-                                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                    <path
-                                                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                                                </svg>
+                                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                        <path
+                                                d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955
+                                                6.572.955-4.756 4.635 1.123 6.545z" />
+                                                    </svg>
                                             @endfor
-                                            @if(!$instructeur->AantalSterren)
-                                                <span class="text-gray-400 text-xs">Geen</span>
-                                            @endif
+                                                @if(!$instructeur->AantalSterren)
+                                                    <span class="text-gray-400 text-xs">Geen</span>
+                                                @endif
                                         </div>
                                     </td>
 
@@ -98,8 +107,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="px-6 py-10 text-center text-sm text-gray-500">
-                                        Er zijn momenteel geen actieve instructeurs gevonden.
+                                            <td colspan="7" class="px-6 py-10 text-center text-sm text-gray-500">
+                                    Er zijn momenteel geen actieve instructeurs gevonden.
                                     </td>
                                 </tr>
                             @endforelse

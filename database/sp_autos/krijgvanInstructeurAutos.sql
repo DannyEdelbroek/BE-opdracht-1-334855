@@ -31,7 +31,8 @@ BEGIN
     LEFT JOIN Voertuig v ON vi.VoertuigId = v.Id
     -- Koppel naar het type voertuig voor de rijbewijscategorie
     INNER JOIN TypeVoertuig tv ON v.TypeVoertuigId = tv.Id
-    WHERE i.Id = p_InstructeurId;
+    WHERE i.Id = p_InstructeurId
+    ORDER BY tv.RijbewijsCategorie DESC; -- Sorteer op rijbewijscategorie, van hoog naar laag
 END $$
 
 DELIMITER ;

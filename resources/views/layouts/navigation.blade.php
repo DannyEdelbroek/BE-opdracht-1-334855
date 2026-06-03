@@ -19,6 +19,10 @@
                     <x-nav-link :href="route('auto.index')" :active="request()->routeIs('auto.index')">
                         {{ __('Instructeur in dienst') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('auto.AllAutos')" :active="request()->routeIs('auto.AllAutos')">
+                        {{ __('Alle voertuigen') }}
+                    </x-nav-link>
                 </div>
             </div>
 

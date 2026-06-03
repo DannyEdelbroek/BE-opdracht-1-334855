@@ -37,9 +37,12 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 // Auto routes
 Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function () {
     Route::get('/Auto', [AutoController::class, 'index'])->name('auto.index');
+    Route::get('/Autos', [AutoController::class, 'Auto'])->name('auto.AllAutos');
     Route::get('/Auto/show/{id}', [AutoController::class, 'show'])->name('auto.show');
     Route::get('/Auto/edit/{id}', [AutoController::class, 'edit'])->name('auto.edit');
     Route::put('/Auto/update/{id}', [AutoController::class, 'update'])->name('auto.update');
+    Route::delete('/Auto/destroy/{id}', [AutoController::class, 'destroy'])->name('auto.destroy');
+    Route::delete('/Auto/destroyAll/{id}', [AutoController::class, 'destroyAll'])->name('auto.destroyAll');
 });
 
 Route::middleware('auth')->get('/dashboard', function () {
