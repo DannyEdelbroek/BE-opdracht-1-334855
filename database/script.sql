@@ -61,7 +61,7 @@ create table Voertuig(
     Bouwjaar date not null,
     Brandstof varchar(20),
     TypeVoertuigId int unsigned not null,
-    Isactief bit not null default 1,
+    Isactief bit not null,
     Opmerking varchar(255) null,
     DatumAangemaakt datetime(6) default now(6),
     DatumGewijziged datetime(6) default now(6),
@@ -71,19 +71,19 @@ create table Voertuig(
 
 -- insert voertuig relaties
 
-INSERT INTO Voertuig (Kenteken, `Type`, Bouwjaar, Brandstof, TypeVoertuigId) VALUES
-('AU-67-IO', 'Golf', '2017-06-12', 'Diesel', 1),
-('TR-24-OP', 'DAF', '2019-05-23', 'Diesel', 2),
-('TH-78-KL', 'Mercedes', '2023-01-01', 'Benzine', 1),
-('90-KL-TR', 'Fiat 500', '2021-09-12', 'Benzine', 1),
-('34-TK-LP', 'Scania', '2015-03-13', 'Diesel', 2),
-('YY-OP-78', 'BMW M5', '2022-05-13', 'Diesel', 1),
-('UU-HH-JK', 'M.A.N', '2017-12-03', 'Diesel', 2),
-('ST-FZ-28', 'Citroën', '2018-01-20', 'Elektrisch', 1),
-('123-FR-T', 'Piaggio ZIP', '2021-02-01', 'Benzine', 4),
-('DRS-52-P', 'Vespa', '2022-03-21', 'Benzine', 4),
-('STP-12-U', 'Kymco', '2022-07-02', 'Benzine', 4),
-('45-SD-23', 'Renault', '2023-01-01', 'Diesel', 3);
+INSERT INTO Voertuig (Kenteken, `Type`, Bouwjaar, Brandstof, TypeVoertuigId, Isactief) VALUES
+('AU-67-IO', 'Golf', '2017-06-12', 'Diesel', 1, 1),
+('TR-24-OP', 'DAF', '2019-05-23', 'Diesel', 2, 1),
+('TH-78-KL', 'Mercedes', '2023-01-01', 'Benzine', 1, 1),
+('90-KL-TR', 'Fiat 500', '2021-09-12', 'Benzine', 1, 0),
+('34-TK-LP', 'Scania', '2015-03-13', 'Diesel', 2, 0),
+('YY-OP-78', 'BMW M5', '2022-05-13', 'Diesel', 1, 0),
+('UU-HH-JK', 'M.A.N', '2017-12-03', 'Diesel', 2, 0),
+('ST-FZ-28', 'Citroën', '2018-01-20', 'Elektrisch', 1, 1),
+('123-FR-T', 'Piaggio ZIP', '2021-02-01', 'Benzine', 4, 1),
+('DRS-52-P', 'Vespa', '2022-03-21', 'Benzine', 4, 1),
+('STP-12-U', 'Kymco', '2022-07-02', 'Benzine', 4, 0),
+('45-SD-23', 'Renault', '2023-01-01', 'Diesel', 3, 1);
 
 -- create voertuig-instructeur relaties
 
