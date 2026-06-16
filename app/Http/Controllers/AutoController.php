@@ -27,9 +27,18 @@ class AutoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($Id)
     {
-        //
+        // Haal instructeur-informatie op
+        $instructeur = $this->autoModel->KrijgInstructeur($Id);
+
+        // Haal vrije voertuigen op voor deze instructeur
+        $voertuigen = $this->autoModel->getVrijeVoertuig() ?? [];
+
+        return view('auto.create', [
+            'instructeur' => $instructeur,
+            'voertuigen' => $voertuigen,
+        ]);
     }
 
     /**
@@ -37,7 +46,20 @@ class AutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Valideer de invoer
+        $validated = $request->validate([
+            'VoertuigId' => 'required|integer',
+            'InstructeurId' => 'required|integer',
+        ]);
+
+        // Geef de gevalideerde data door aan het model om de SP uit te voeren
+        $success = $this->autoModel->voegVoertuigToe($validated);
+
+        if ($success) {
+            return redirect()->route('auto.index')->with('success', 'Voertuig succesvol toegevoegd.');
+        } else {
+            return redirect()->back()->with('error', 'Er ging iets mis bij het toevoegen van het voertuig.');
+        }
     }
 
     /**
@@ -156,7 +178,7 @@ class AutoController extends Controller
 
         // 3. Als alles goed is gegaan, stuur terug met een succesmelding
         return redirect()
-            ->route('auto.show', ['id' => $id])
+            ->route('auto.index')
             ->with('success', 'Voertuig is succesvol verwijderd!');
     }
     

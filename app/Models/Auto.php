@@ -56,9 +56,47 @@ class Auto extends Model
             return collect(DB::select('CALL KrijgAlleVoertuigen()') ?? []);
         } catch (\Exception $e) {
             Log::error('Fout in getAlleVoertuigen: '.$e->getMessage());
-
-            return collect([]);
         }
+
+        return collect([]);
+    }
+
+    public function voegVoertuigToe(array $data)
+    {
+        try {
+            $result = DB::select('CALL VoegVoertuigToe(?, ?)', [
+                $data['VoertuigId'],
+                $data['InstructeurId'],
+            ]);
+
+            return $result;
+        } catch (\Exception $e) {
+            Log::error('Fout in voegVoertuigToe via SP: '.$e->getMessage());
+        }
+
+        return false;
+    }
+
+    public function KrijgInstructeur($InstructeurId)
+    {
+        try {
+            $results = DB::select('CALL KrijgInstructeur(?)', [$InstructeurId]);
+
+            return collect($results)->first();
+        } catch (\Exception $e) {
+            Log::error('Fout in KrijgInstructeur: '.$e->getMessage());
+        }
+    }
+
+    public function getVrijeVoertuig()
+    {
+        try {
+            $vrijeVoertuigen = DB::select('CALL KrijgAlleVrijeVoertuigen()') ?? [];
+        } catch (\Exception $e) {
+            Log::error('Fout in KrijgAlleVrijeVoertuigen: '.$e->getMessage());
+        }
+
+        return $vrijeVoertuigen;
     }
 
     /**
@@ -88,8 +126,32 @@ class Auto extends Model
         $instructeurs = collect([]);
 
         try {
-            // Geef de $instructeurId mee aan de Stored Procedure
             $instructeurs = collect(DB::select('CALL KrijgVoertuigenVanInstructeur(?)', [$instructeurId]) ?? []);
+
+            if ($instructeurs->isEmpty()) {
+                $instructeur = collect(DB::select(
+                    'SELECT Id AS InstructeurID, Voornaam, Tussenvoegsel, Achternaam, DatumInDienst, AantalSterren FROM Instructeur WHERE Id = ?',
+                    [$instructeurId]
+                ))->first();
+
+                if ($instructeur) {
+                    $instructeurs = collect([(object) [
+                        'InstructeurID' => $instructeur->InstructeurID,
+                        'Voornaam' => $instructeur->Voornaam,
+                        'Tussenvoegsel' => $instructeur->Tussenvoegsel,
+                        'Achternaam' => $instructeur->Achternaam,
+                        'DatumInDienst' => $instructeur->DatumInDienst,
+                        'AantalSterren' => $instructeur->AantalSterren,
+                        'VoertuigID' => null,
+                        'TypeVoertuig' => null,
+                        'Type' => null,
+                        'Kenteken' => null,
+                        'Bouwjaar' => null,
+                        'Brandstof' => null,
+                        'RijbewijsCategorie' => null,
+                    ]]);
+                }
+            }
         } catch (\Exception $e) {
             Log::error('Error fetching InstructeurAuto: '.$e->getMessage());
         }

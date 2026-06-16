@@ -6,7 +6,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `DeleteCar`; $$
 
 CREATE PROCEDURE `DeleteCar`(
-    IN p_VoertuigId INT
+    IN p_VoertuigId INT UNSIGNED
 )
 BEGIN
     -- Foutafhandeling: Als er een SQL-fout optreedt, rol de transactie dan terug
@@ -19,11 +19,8 @@ BEGIN
     -- Start de transactie
     START TRANSACTION;
 
-        -- 1. Verwijder eerst de gekoppelde instructeurs
+        -- 1. Verwijder alleen de koppeling met de instructeur
         DELETE FROM VoertuigInstructeur WHERE VoertuigId = p_VoertuigId;
-
-        -- 2. Verwijder daarna het voertuig zelf
-        DELETE FROM Voertuig WHERE Id = p_VoertuigId;
 
     -- Als alles zonder fouten is doorlopen, sla de wijzigingen definitief op
     COMMIT;

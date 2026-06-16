@@ -9,6 +9,7 @@
     BEGIN
         SELECT 
             v.Id AS VoertuigID,
+            i.Id AS InstructeurID,
             v.TypeVoertuigId,
             v.Type,
             v.Bouwjaar,

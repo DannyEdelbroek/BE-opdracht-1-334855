@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Door Instructeur gebruikte voertuigen') }}
+            {{ __('Alle beschikbare voertuigen') }}
         </h2>
     </x-slot>
 
@@ -26,9 +26,7 @@
                     <div class="space-y-2 mb-8 bg-gray-50 p-4 rounded-lg border border-gray-100 max-w-xl shadow-sm">
                         <p class="text-sm text-gray-700">
                             <span class="font-semibold inline-block w-36 text-gray-600">Naam:</span>
-                            {{ $instructeur->Voornaam }}
-                            @if($instructeur->Tussenvoegsel) {{ $instructeur->Tussenvoegsel }} @endif
-                            {{ $instructeur->Achternaam }}
+                            {{ $instructeur->InstructeurNaam }}
                         </p>
                         <p class="text-sm text-gray-700">
                             <span class="font-semibold inline-block w-36 text-gray-600">Datum in dienst:</span>
@@ -56,18 +54,8 @@
                     </div>
                 @endif
 
-                @if($instructeur)
-                    <div class="mb-6">
-                        <a href="{{ route('auto.create', ['Id' => $instructeur->Id ?? $instructeur->InstructeurID]) }}"
-                            class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
-                            <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                            </svg>
-                            Toevoegen Voertuig
-                        </a>
-                    </div>
-                @endif
+                <div class="mb-6">
+                </div>
 
                 <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -93,10 +81,7 @@
                                     Rijbewijscategorie</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                    Wijzigen</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                    Verwijderen</th>
+                                    Toevoegen</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -106,57 +91,37 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                                             {{ $voertuig->TypeVoertuig }}
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $voertuig->Type }}
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-700">
                                             <span class="bg-gray-100 px-2 py-1 rounded border border-gray-200">
                                                 {{ $voertuig->Kenteken }}
                                             </span>
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ \Carbon\Carbon::parse($voertuig->Bouwjaar)->format('d-m-Y') }}
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $voertuig->Brandstof }}
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                                            <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">
                                                 {{ $voertuig->RijbewijsCategorie }}
                                             </span>
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                            <a href="{{ route('auto.edit', ['id' => $voertuig->VoertuigID]) }}"
-                                                class="text-indigo-600 hover:text-indigo-900 inline-block p-1.5 hover:bg-indigo-50 rounded-md transition-colors"
-                                                title="Wijzig voertuig">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                </svg>
-                                            </a>
-                                        </td>
-
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                            <form action="{{ route('auto.destroyAll', ['id' => $voertuig->VoertuigID]) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Weet je zeker dat je dit voertuig wilt verwijderen?');">
+                                            <form action="{{ route('auto.store') }}" method="POST">
                                                 @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-900 inline-block p-1.5 hover:bg-red-50 rounded-md transition-colors"
-                                                    title="Verwijder voertuig">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                {{-- // Voeg verborgen velden toe voor VoertuigId en InstructeurId --}}
+                                                <input type="hidden" name="VoertuigId" value="{{ $voertuig->VoertuigID }}">
+                                                <input type="hidden" name="InstructeurId" value="{{ $instructeur->InstructeurId }}">
+                                                
+                                                <button type="submit" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 transition-colors" title="Voertuig toewijzen">
+                                                    <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                            clip-rule="evenodd" />
                                                     </svg>
                                                 </button>
                                             </form>
@@ -166,7 +131,7 @@
                             @empty
                                 <tr>
                                     <td colspan="7" class="px-6 py-10 text-center text-sm text-gray-500 bg-gray-50/50">
-                                        Deze instructeur heeft momenteel geen voertuigen toegewezen gekregen.
+                                        Geen vrije voertuigen beschikbaar.
                                     </td>
                                 </tr>
                             @endforelse

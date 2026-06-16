@@ -38,6 +38,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function () {
     Route::get('/Auto', [AutoController::class, 'index'])->name('auto.index');
     Route::get('/Autos', [AutoController::class, 'Auto'])->name('auto.AllAutos');
+    Route::get('/Auto/create/{Id}', [AutoController::class, 'create'])->name('auto.create');
+    Route::post('/Auto/store', [AutoController::class, 'store'])->name('auto.store');
     Route::get('/Auto/show/{id}', [AutoController::class, 'show'])->name('auto.show');
     Route::get('/Auto/edit/{id}', [AutoController::class, 'edit'])->name('auto.edit');
     Route::put('/Auto/update/{id}', [AutoController::class, 'update'])->name('auto.update');
