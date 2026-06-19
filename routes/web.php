@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Autocontroller;
+use App\Http\Controllers\InstructeurController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,10 @@ Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function ()
     Route::put('/Auto/update/{id}', [AutoController::class, 'update'])->name('auto.update');
     Route::delete('/Auto/destroy/{id}', [AutoController::class, 'destroy'])->name('auto.destroy');
     Route::delete('/Auto/destroyAll/{id}', [AutoController::class, 'destroyAll'])->name('auto.destroyAll');
+});
+
+Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function () {
+    Route::patch('/instructeur/toggle-status/{id}', [InstructeurController::class, 'toggleStatus'])->name('instructeur.toggleStatus');
 });
 
 Route::middleware('auth')->get('/dashboard', function () {

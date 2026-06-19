@@ -16,7 +16,7 @@ BEGIN
         i.Achternaam,
         i.DatumInDienst,
         i.AantalSterren,
-        
+        vi.Isactief,
         -- Voertuig informatie (tabel in schets)
         v.Id AS VoertuigID,
         tv.TypeVoertuig,
@@ -32,6 +32,7 @@ BEGIN
     -- Koppel naar het type voertuig voor de rijbewijscategorie
     INNER JOIN TypeVoertuig tv ON v.TypeVoertuigId = tv.Id
     WHERE i.Id = p_InstructeurId
+    AND vi.Isactief = 1 -- Alleen actieve instructeurs
     ORDER BY tv.RijbewijsCategorie DESC; -- Sorteer op rijbewijscategorie, van hoog naar laag
 END $$
 

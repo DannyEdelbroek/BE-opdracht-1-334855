@@ -45,12 +45,12 @@ create table Instructeur(
 
 -- insert instructeur relaties
 
-insert into Instructeur (Voornaam, Tussenvoegsel, Achternaam, Mobiel, DatumInDienst, AantalSterren) values
-	('Li', null, 'Zhan', '06-28493827', '2015-04-17', 3 ),
-    ('Leroy', null, 'Boerhaven', '06-39398734', '2018-06-25', 1 ),
-    ('Yoeri', 'Van', 'Veen', '06-24383291', '2010-05-12', 3 ),
-    ('Bert', 'Van', 'Sali', '06-48293823', '2023-01-10', 4 ),
-    ('Mohammed', 'El', 'Yassidi', '06-34291234', '2010-06-14', 5 );
+insert into Instructeur (Voornaam, Tussenvoegsel, Achternaam, Mobiel, DatumInDienst, AantalSterren, Isactief) values
+	('Li', null, 'Zhan', '06-28493827', '2015-04-17', 3, 1),
+    ('Leroy', null, 'Boerhaven', '06-39398734', '2018-06-25', 1, 1),
+    ('Yoeri', 'Van', 'Veen', '06-24383291', '2010-05-12', 3, 1),
+    ('Bert', 'Van', 'Sali', '06-48293823', '2023-01-10', 4, 1),
+    ('Mohammed', 'El', 'Yassidi', '06-34291234', '2010-06-14', 5, 0);
 
 -- create voertuig relaties
 
@@ -103,10 +103,10 @@ create table VoertuigInstructeur(
 
 -- insert voertuig-instructeur relaties
 
-insert into VoertuigInstructeur (VoertuigId, InstructeurId, DatumToekenning) values
-	(1, 5, '2017-06-18'),
-    (3, 1, '2021-09-26'),
-    (9, 1, '2021-09-27'),
-    (4, 4, '2022-08-01'),
-    (5, 1, '2019-08-30'),
-    (6, 5, '2020-02-02');
+insert into VoertuigInstructeur (VoertuigId, InstructeurId, DatumToekenning, Isactief) values
+	(1, 5, '2017-06-18', 1),
+    (3, 1, '2021-09-26', 1),
+    (9, 1, '2021-09-27', 1),
+    (4, 4, '2022-08-01', 1),
+    (5, 1, '2019-08-30', 1),
+    (6, 5, '2020-02-02', 1);

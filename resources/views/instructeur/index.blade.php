@@ -51,7 +51,10 @@
                                 <th scope="col"
                                     class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
                                     Voertuigen</th>
-                                </tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Ziekte/Verlof</th>
+                            </tr>
                         </thead>
 
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -81,18 +84,16 @@
                                         <div class="flex items-center gap-0.5"
                                             title="{{ $instructeur->AantalSterren }} sterren">
                                             @for($i = 0; $i < $instructeur->AantalSterren; $i++)
-                                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                                        <path
-                                                d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955
-                                                6.572.955-4.756 4.635 1.123 6.545z" />
-                                                    </svg>
+                                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955
+                                                        6.572.955-4.756 4.635 1.123 6.545z" />
+                                                </svg>
                                             @endfor
-                                                @if(!$instructeur->AantalSterren)
-                                                    <span class="text-gray-400 text-xs">Geen</span>
-                                                @endif
+                                            @if(!$instructeur->AantalSterren)
+                                                <span class="text-gray-400 text-xs">Geen</span>
+                                            @endif
                                         </div>
                                     </td>
-
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
                                         <a href="{{ route('auto.show', ['id' => $instructeur->InstructeurID])  }}"
                                             class="inline-flex items-center justify-center p-2 text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 rounded-md transition-colors"
@@ -104,11 +105,24 @@
                                             </svg>
                                         </a>
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                        <form action="{{ route('instructeur.toggleStatus', ['id' => $instructeur->InstructeurID]) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit">
+                                            @if($instructeur->Isactief === 1)
+                                                <span class="icon-grin"></span>
+                                            @else
+                                                <span class="icon-aid-kit"></span>
+                                            @endif
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                            <td colspan="7" class="px-6 py-10 text-center text-sm text-gray-500">
-                                    Er zijn momenteel geen actieve instructeurs gevonden.
+                                    <td colspan="7" class="px-6 py-10 text-center text-sm text-gray-500">
+                                        Er zijn momenteel geen actieve instructeurs gevonden.
                                     </td>
                                 </tr>
                             @endforelse

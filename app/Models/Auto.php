@@ -35,18 +35,6 @@ class Auto extends Model
         }
     }
 
-    public function typeVoertuig()
-    {
-        try {
-            $instructeurs = collect(DB::select('CALL KrijgAlleAutos()') ?? []);
-        } catch (\Exception $e) {
-            // Handle the exception, e.g., log the error or return a default value
-            Log::error('Error fetching TypeVoertuig: '.$e->getMessage());
-        }
-
-        return $instructeurs;
-    }
-
     /**
      * Haal alle voertuigen via de stored procedure `KrijgAlleVoertuigen`.
      */
@@ -122,41 +110,32 @@ class Auto extends Model
 
     public function InstructeurAuto($instructeurId)
     {
-        // Initialiseer als een lege collectie voor het geval de database-call faalt
-        $instructeurs = collect([]);
-
         try {
-            $instructeurs = collect(DB::select('CALL KrijgVoertuigenVanInstructeur(?)', [$instructeurId]) ?? []);
+            // 1. Haal de resultaten op uit de Stored Procedure
+            $resultaten = DB::select('CALL KrijgVoertuigenVanInstructeur(?)', [$instructeurId]);
 
-            if ($instructeurs->isEmpty()) {
-                $instructeur = collect(DB::select(
-                    'SELECT Id AS InstructeurID, Voornaam, Tussenvoegsel, Achternaam, DatumInDienst, AantalSterren FROM Instructeur WHERE Id = ?',
-                    [$instructeurId]
-                ))->first();
-
-                if ($instructeur) {
-                    $instructeurs = collect([(object) [
-                        'InstructeurID' => $instructeur->InstructeurID,
-                        'Voornaam' => $instructeur->Voornaam,
-                        'Tussenvoegsel' => $instructeur->Tussenvoegsel,
-                        'Achternaam' => $instructeur->Achternaam,
-                        'DatumInDienst' => $instructeur->DatumInDienst,
-                        'AantalSterren' => $instructeur->AantalSterren,
-                        'VoertuigID' => null,
-                        'TypeVoertuig' => null,
-                        'Type' => null,
-                        'Kenteken' => null,
-                        'Bouwjaar' => null,
-                        'Brandstof' => null,
-                        'RijbewijsCategorie' => null,
-                    ]]);
-                }
+            // Als de database wat teruggeeft én het eerste resultaat heeft een echt VoertuigID...
+            if (! empty($resultaten) && ! is_null($resultaten[0]->VoertuigID)) {
+                return collect($resultaten);
             }
+
+            // 2. Als de SP niks teruggeeft (of een lege rij), halen we alleen de basisgegevens van de instructeur op
+            $instructeur = DB::select(
+                'SELECT Id AS InstructeurID, Voornaam, Tussenvoegsel, Achternaam, DatumInDienst, AantalSterren, IsActief 
+             FROM Instructeur WHERE Id = ?',
+                [$instructeurId]
+            );
+
+            if (! empty($instructeur)) {
+                // We returnen één object in een collectie, maar ZONDER de lege voertuig-velden
+                return collect([$instructeur[0]]);
+            }
+
         } catch (\Exception $e) {
             Log::error('Error fetching InstructeurAuto: '.$e->getMessage());
         }
 
-        return $instructeurs;
+        return collect([]);
     }
 
     public function getVoertuigWijzigGegevens($id)

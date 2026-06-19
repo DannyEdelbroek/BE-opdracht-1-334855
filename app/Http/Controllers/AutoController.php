@@ -21,7 +21,7 @@ class AutoController extends Controller
     {
         $auto = $this->autoModel->getAlleInstructeurs();
 
-        return view('auto.index', compact('auto'));
+        return view('instructeur.index', compact('auto'));
     }
 
     /**
@@ -67,21 +67,19 @@ class AutoController extends Controller
      */
     public function show($id)
     {
-        // 1. Haal de data van de specifieke instructeur op via het model
+        // Roep de functie aan uit je model (pas 'JouwModel' aan naar de echte naam van je model)
         $data = $this->autoModel->InstructeurAuto($id);
 
-        // 2. Splits de data op voor de Blade view (net als in het vorige voorbeeld)
+        // Pak de instructeur (dit is altijd het eerste object in de collectie, als hij bestaat)
         $instructeur = $data->first();
-        $voertuigen = $data;
 
-        // Optioneel: wanneer ?all=1 in de querystring staat, laad alle voertuigen
-        $alleVoertuigen = null;
-        if (request()->query('all') == 1) {
-            $alleVoertuigen = $this->autoModel->getAlleVoertuigen();
-        }
+        // Filter de voertuigen: we pakken alleen de objecten waar écht een VoertuigID in zit
+        $voertuigen = $data->filter(function ($item) {
+            return isset($item->VoertuigID) && ! is_null($item->VoertuigID);
+        });
 
-        // 3. Stuur beide variabelen netjes mee naar de view
-        return view('auto.show', compact('instructeur', 'voertuigen', 'alleVoertuigen'));
+        // Stuur beide variabelen netjes apart naar je Blade view
+        return view('auto.show', compact('instructeur', 'voertuigen'));
     }
 
     /**
@@ -131,7 +129,6 @@ class AutoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    
     public function Auto()
     {
         $voertuigen = $this->autoModel->getAlleVoertuigen();
@@ -181,5 +178,4 @@ class AutoController extends Controller
             ->route('auto.index')
             ->with('success', 'Voertuig is succesvol verwijderd!');
     }
-    
 }
