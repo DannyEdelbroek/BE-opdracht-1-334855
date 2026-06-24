@@ -79,8 +79,26 @@ class InstructeurController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Instructeur $intructeur)
+    public function destroy($id)
     {
-        //
+        if (! $id) {
+            return redirect()->back()->with('error', 'Geen voertuig opgegeven.');
+        }
+
+        $status = $this->InstructeurModel->verwijderInstructeur($id);
+
+        if ($status === 'not_found') {
+            return redirect()->back()->with('error', 'Instructeur niet gevonden.');
+        }
+
+        if ($status === 'active') {
+            return redirect()->back()->with('error', 'Instructeur kan niet definitief worden verwijderd, verander eerst de status ziekte/verlof');
+        }
+
+        if ($status === 'deleted') {
+            return redirect()->route('auto.index')->with('success', 'Instructeur succesvol verwijderd.');
+        }
+
+        return redirect()->back()->with('error', 'Er ging iets mis bij het verwijderen van het Instructeur.');
     }
 }
