@@ -50,6 +50,7 @@ Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function ()
 
 Route::middleware(['auth', 'role:Instructeur,Administrator'])->group(function () {
     Route::patch('/instructeur/toggle-status/{id}', [InstructeurController::class, 'toggleStatus'])->name('instructeur.toggleStatus');
+    Route::delete('/instructeur/delete/{id}', [InstructeurController::class, 'destroy'])->name('instructeur.destroy');
 });
 
 Route::middleware('auth')->get('/dashboard', function () {
